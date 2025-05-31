@@ -36,15 +36,21 @@ private userRepository: UserRepository
     }
     
   }
-  loginUser({
+  async loginUser({
     email,
     password,
   }: {
     email: string;
     password: string;
-  }): Promise<IUser> {
-    throw new Error("Method not implemented.");
+  }): Promise<IUser|null> {
+         if (!email|| !password ) {
+        throw new Error("All fields are required");
+      }
+      const result:IUser|null=await this.userRepository.loginUser({email,password})
+
+        return result||null
   }
+
 }
 
 

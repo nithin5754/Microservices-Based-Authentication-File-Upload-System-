@@ -9,6 +9,6 @@ export interface IUser {
 export interface IUserUseCase {
   signupUser({username, email, password}:{username:string,email:string,password:string}):Promise<IUser|null>
 
-  loginUser({email,password}:{email:string,password:string}):Promise<IUser>
+  loginUser({email,password}:{email:string,password:string}): Promise<IUser|null>
 
 }

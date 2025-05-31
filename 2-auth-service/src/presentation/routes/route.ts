@@ -12,6 +12,10 @@ const userUseCase=new UserUseCase(userRepository)
 const controller=new UserController(userUseCase)
 
 
-router.get('/sign-up',controller.signupUser)
+
+
+
+router.post('/sign-up',controller.signupUser)
+router.post('/login',controller.loginUser)
 
 export default router
