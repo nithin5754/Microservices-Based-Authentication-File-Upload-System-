@@ -3,6 +3,9 @@ import express from "express";
 import cors from "cors";
 import { corsOptions } from "./adapter/config/CorsOptions";
 import route from './presentation/routes/route';
+import { initializePool } from "./infrastructure/database/connect";
+import { userTable } from "./infrastructure/database/schema";
+
 
 dotenv.config();
 
@@ -15,12 +18,20 @@ app.use(cors(corsOptions));
 
 app.use(express.json());
 
+
+
+
+
 const server = async () => {
   let retries = 5;
 
   while (retries > 0) {
     try {
-       app.use('/',route);
+  await initializePool()
+
+ await userTable()
+
+             app.use('/',route);
       app.listen(port, () => {
         console.log(`Auth server started on: http://localhost:${port}`);
       });
