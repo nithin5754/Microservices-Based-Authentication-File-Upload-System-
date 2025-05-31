@@ -3,8 +3,7 @@ import { UserUseCase } from "../../core/usecase/UserUsecase";
 import UserRepository from "../../infrastructure/repository/userRepository";
 
 
-
-const express = require("express");
+import express from 'express'
 const router = express.Router();
 
 const userRepository=new UserRepository()
