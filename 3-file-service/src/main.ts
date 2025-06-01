@@ -6,6 +6,8 @@ import cors from "cors";
 
 import { corsOptions } from "./adapter/cors/corsOptions";
 import router from "./presentation/routes/route";
+import { initializePool } from "./infrastructure/database/connect";
+import { fileTable } from "./infrastructure/database/schema";
 
 
 dotenv.config();
@@ -30,7 +32,9 @@ const server = async () => {
     try {
 
 
+await initializePool()
 
+await fileTable()
 
              app.use('/',router);
       app.listen(port, () => {

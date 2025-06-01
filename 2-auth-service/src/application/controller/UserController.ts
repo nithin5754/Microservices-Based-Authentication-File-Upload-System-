@@ -12,7 +12,7 @@ class UserController {
     this.loginUser = this.loginUser.bind(this);
   }
 
-  async signupUser(req: Request, res: Response):Promise<void> {
+  async signupUser(req: Request, res: Response): Promise<void> {
     try {
       const { username, email, password } = req.body;
 
@@ -20,8 +20,8 @@ class UserController {
 
       if (!this.userUseCase) {
         console.error("❌ userUseCase or signupUser method is missing!");
-         res.status(500).json({ error: "Internal server error" });
-         return;
+        res.status(500).json({ error: "Internal server error" });
+        return;
       }
 
       const result: IUser | null = await this.userUseCase.signupUser({
@@ -37,7 +37,7 @@ class UserController {
     }
   }
 
-  async loginUser(req: Request, res: Response):Promise<void> {
+  async loginUser(req: Request, res: Response): Promise<void> {
     try {
       const { email, password } = req.body;
 
@@ -45,8 +45,8 @@ class UserController {
 
       if (!this.userUseCase) {
         console.error("❌ userUseCase or loginUser method is missing!");
-         res.status(500).json({ error: "Internal server error" });
-         return;
+        res.status(500).json({ error: "Internal server error" });
+        return;
       }
 
       const result: IUser | null = await this.userUseCase.loginUser({
@@ -57,23 +57,20 @@ class UserController {
       const accessToken = jwt.sign(
         {
           userId: result?.id,
-          username:result?.username,
-          email:result?.email
+          username: result?.username,
+          email: result?.email,
         },
         process.env.JWT_SECRET as string,
         {
-          expiresIn: "1d",
+          expiresIn: "1m",
         }
       );
 
-      res
-        .status(200)
-        .json({
-          message: result ? "login successfully" : "user not found",
-          data: result,
-          token: accessToken,
-        });
-      
+      res.status(200).json({
+        message: result ? "login successfully" : "user not found",
+        data: result,
+        token: accessToken,
+      });
     } catch (error) {
       console.log("error", error);
       res.status(500).json({ error: error });
