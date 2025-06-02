@@ -2,7 +2,7 @@ import UserRepository from "../../infrastructure/repository/userRepository";
 import { IUser, IUserUseCase } from "../../types/Iuser";
 
 class UserUseCase implements IUserUseCase {
-private userRepository: UserRepository
+  private userRepository: UserRepository;
   constructor(userRepository: UserRepository) {
     this.userRepository = userRepository;
   }
@@ -14,27 +14,23 @@ private userRepository: UserRepository
     username: string;
     email: string;
     password: string;
-  }): Promise<IUser|null> {
-
+  }): Promise<IUser | null> {
     try {
-            if (!username || !email || !password) {
+      if (!username || !email || !password) {
         throw new Error("All fields are required");
       }
 
-      const result:IUser|null=await this.userRepository.createUser({
-        email,password,username
-      })
+      const result: IUser | null = await this.userRepository.createUser({
+        email,
+        password,
+        username,
+      });
 
-    
-
-      return result||null
-
-      
+      return result || null;
     } catch (error) {
-        console.error("Error from use case", error);
+      console.error("Error from use case", error);
       throw new Error(`${error}`);
     }
-    
   }
   async loginUser({
     email,
@@ -42,16 +38,27 @@ private userRepository: UserRepository
   }: {
     email: string;
     password: string;
-  }): Promise<IUser|null> {
-         if (!email|| !password ) {
-        throw new Error("All fields are required");
-      }
-      const result:IUser|null=await this.userRepository.loginUser({email,password})
+  }): Promise<IUser | null> {
+    if (!email || !password) {
+      throw new Error("All fields are required");
+    }
+    const result: IUser | null = await this.userRepository.loginUser({
+      email,
+      password,
+    });
 
-        return result||null
+    return result || null;
   }
 
+  async getUser({ userId }: { userId: string }): Promise<IUser | null> {
+    if (!userId) {
+      throw new Error(" Credentials missing");
+    }
+
+    const result: IUser | null = await this.userRepository.getUser({ userId });
+
+    return result;
+  }
 }
 
-
-export {UserUseCase}
+export { UserUseCase };

@@ -53,6 +53,23 @@ class UserRepository {
       return null;
     }
   }
+
+  async getUser({ userId }: { userId: string }) {
+    try {
+      let pool = getPool();
+
+      let query = `SELECT * FROM userauth WHERE id=$1`;
+
+      const result = await pool.query(query, [Number(userId)]);
+      if (!result.rows.length) {
+        throw new Error("user not found");
+      }
+      return result.rows[0];
+    } catch (error) {
+      console.error("error in repo", error);
+      return null;
+    }
+  }
 }
 
 export default UserRepository;

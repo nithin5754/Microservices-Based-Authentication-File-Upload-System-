@@ -76,6 +76,21 @@ class UserController {
       res.status(500).json({ error: error });
     }
   }
+
+  async getUser(req: Request, res: Response): Promise<void> {
+    const { userId } = req.params;
+    try {
+      let result = await this.userUseCase.getUser({ userId });
+
+      res.status(200).json({
+        message: "successfully",
+        data: result,
+      });
+    } catch (error) {
+      console.log("error", error);
+      res.status(500).json({ error: error });
+    }
+  }
 }
 
 export { UserController };
